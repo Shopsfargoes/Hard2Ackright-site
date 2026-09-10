@@ -104,4 +104,23 @@ document.addEventListener("DOMContentLoaded", () => {
       if (activeDetail) activeDetail.classList.add("is-active");
     });
   });
+
+  // ---------- FAQ accordion ----------
+
+  const faqItems = document.querySelectorAll("[data-faq]");
+
+  faqItems.forEach((item) => {
+    const question = item.querySelector(".faq__question");
+
+    question.addEventListener("click", () => {
+      const isOpen = item.classList.contains("is-open");
+
+      // Close all, then reopen the clicked one if it wasn't already open
+      faqItems.forEach((i) => i.classList.remove("is-open"));
+
+      if (!isOpen) {
+        item.classList.add("is-open");
+      }
+    });
+  });
 });
