@@ -295,3 +295,106 @@ body {
     max-width: 100%;
   }
 }
+
+/* ---------- SPECS ---------- */
+
+.specs {
+  position: relative;
+  z-index: 5; /* sits above the stacked features */
+  background: #0A0A0A;
+  padding: 7rem 2rem 8rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.specs__eyebrow {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #EC6833;
+  margin-bottom: 1rem;
+}
+
+.specs__heading {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1.05;
+  color: #ffffff;
+  margin-bottom: 4rem;
+  max-width: 700px;
+}
+
+.specs__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.spec-card {
+  background: #121212;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+
+  /* Reveal animation state: starts hidden/offset, JS adds .is-visible */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.spec-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.spec-card__value {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  white-space: nowrap;
+}
+
+.spec-card__unit {
+  font-size: 1.1rem;
+  color: #EC6833;
+  margin-left: 0.25rem;
+}
+
+.spec-card__number-static {
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+}
+
+.spec-card__label {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #5A5A5A;
+  margin-bottom: 1rem;
+}
+
+.spec-card__desc {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #cfcfcf;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .specs__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 550px) {
+  .specs__grid {
+    grid-template-columns: 1fr;
+  }
+}
