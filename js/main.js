@@ -77,4 +77,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     requestAnimationFrame(step);
   }
+
+  // ---------- How to Use: drill tab switcher ----------
+
+  const drillTabs = document.querySelectorAll("[data-drill]");
+  const drillDetails = document.querySelectorAll("[data-drill-detail]");
+
+  drillTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const targetId = tab.getAttribute("data-drill");
+
+      drillTabs.forEach((t) => t.classList.remove("is-active"));
+      tab.classList.add("is-active");
+
+      drillDetails.forEach((detail) => {
+        detail.classList.remove("is-active");
+        // Restart the fade-in animation each time it's shown
+        detail.style.animation = "none";
+        detail.offsetHeight; // force reflow
+        detail.style.animation = "";
+      });
+
+      const activeDetail = document.querySelector(
+        `[data-drill-detail="${targetId}"]`
+      );
+      if (activeDetail) activeDetail.classList.add("is-active");
+    });
+  });
 });
