@@ -742,3 +742,102 @@ body {
   max-width: 640px;
   margin: 0;
 }
+
+/* ---------- FINAL CTA ---------- */
+
+.final-cta {
+  position: relative;
+  z-index: 5;
+  background: #000000;
+  padding: 8rem 2rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.final-cta__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(236, 104, 51, 0.22) 0%, transparent 65%);
+  animation: glow-pulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.final-cta__eyebrow {
+  position: relative;
+  z-index: 1;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #EC6833;
+  margin-bottom: 1rem;
+}
+
+.final-cta__heading {
+  position: relative;
+  z-index: 1;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  color: #ffffff;
+  margin-bottom: 2.5rem;
+}
+
+.final-cta__button {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: #EC6833;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 1.1rem 2.75rem;
+  border-radius: 999px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.final-cta__button:hover {
+  background: #ffffff;
+  color: #0A0A0A;
+  transform: translateY(-2px);
+}
+
+.final-cta__promo {
+  position: relative;
+  z-index: 1;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  color: #5A5A5A;
+  margin-top: 1.25rem;
+}
+
+/* ---------- FOOTER ---------- */
+
+.site-footer {
+  background: #000000;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 2rem;
+  text-align: center;
+}
+
+.site-footer p {
+  font-family: "Open Sans", sans-serif;
+  font-size: 13px;
+  color: #5A5A5A;
+  margin: 0;
+}

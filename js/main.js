@@ -4,6 +4,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   const nav = document.querySelector(".nav__inner");
 
+  // Auto-update footer copyright year
+  const yearEl = document.getElementById("footer-year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
   // Slightly darken the floating nav once the user scrolls past the hero top
   window.addEventListener("scroll", () => {
     if (window.scrollY > 40) {
