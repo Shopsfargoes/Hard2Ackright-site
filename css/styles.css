@@ -82,11 +82,91 @@ body {
   color: #0A0A0A;
 }
 
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Hamburger — hidden on desktop, shown on mobile */
+.nav__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.nav__burger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.nav__burger.is-open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.nav__burger.is-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav__burger.is-open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Mobile dropdown panel */
+.nav__mobile-menu {
+  max-height: 0;
+  overflow: hidden;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: rgba(10, 10, 10, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  transition: max-height 0.35s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav__mobile-menu.is-open {
+  max-height: 320px;
+  margin-top: 0.5rem;
+}
+
+.nav__mobile-menu a {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.nav__mobile-menu a:last-child {
+  border-bottom: none;
+}
+
+.nav__mobile-cta {
+  color: #EC6833 !important;
+}
+
 /* ---------- HERO ---------- */
 
 .hero {
   position: relative;
   height: 100vh;
+  height: 100dvh; /* fixes mobile Safari address-bar jump; falls back to 100vh on older browsers */
   min-height: 640px;
   width: 100%;
   overflow: hidden;
@@ -186,16 +266,21 @@ body {
   color: #0A0A0A;
 }
 
-/* ---------- RESPONSIVE ---------- */
+/* ---------- RESPONSIVE (nav) ---------- */
 
 @media (max-width: 800px) {
   .nav__links {
     display: none;
   }
 
+  .nav__burger {
+    display: flex;
+  }
+
   .hero__content {
     flex-direction: column;
     align-items: flex-start;
+    justify-content: flex-end;
     gap: 1.5rem;
     padding: 0 1.5rem 3rem;
   }
@@ -221,6 +306,7 @@ body {
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100dvh;
   width: 100%;
   overflow: hidden;
   display: flex;
@@ -730,8 +816,9 @@ body {
 }
 
 .faq__item.is-open .faq__answer {
-  max-height: 200px;
   padding-bottom: 1.5rem;
+  /* max-height is set inline by JS to the answer's real height,
+     so long answers on narrow screens never get clipped */
 }
 
 .faq__answer p {
@@ -840,4 +927,43 @@ body {
   font-size: 13px;
   color: #5A5A5A;
   margin: 0;
+}
+
+/* ---------- GLOBAL SMALL-SCREEN REFINEMENTS ---------- */
+
+@media (max-width: 400px) {
+  .hero__headline {
+    font-size: clamp(2.25rem, 11vw, 3rem);
+  }
+
+  .hero__buybox {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .hero__cta {
+    width: 100%;
+    text-align: center;
+  }
+
+  .specs,
+  .drills,
+  .faq {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .drills__panel {
+    min-height: auto;
+  }
+
+  .final-cta {
+    padding: 5rem 1.25rem;
+  }
+
+  .final-cta__button {
+    width: 100%;
+    text-align: center;
+  }
 }
