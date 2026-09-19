@@ -322,89 +322,91 @@ body {
   background: #0A0A0A;
 }
 
-/* ---------- STACKING FEATURES (scroll effect) ---------- */
+/* ---------- HIGHLIGHTS ---------- */
 
-.stack-features {
-  position: relative;
+.highlights {
+  background: #0A0A0A;
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.stack-feature {
-  position: sticky;
-  top: 0;
-  height: 70vh;
-  height: 70dvh;
-  width: 100%;
-  overflow: hidden;
+.highlights__heading {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: #ffffff;
+  margin-bottom: 4rem;
+  text-align: left;
+}
+
+.highlight-row {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  gap: 4rem;
+  margin-bottom: 6rem;
 }
 
-.stack-feature__bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+.highlight-row--reverse {
+  flex-direction: row-reverse;
 }
 
-.stack-feature__bg img,
-.stack-feature__bg video {
+.highlight-row__media {
+  flex: 1 1 50%;
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.highlight-row__media img,
+.highlight-row__media video {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Placeholder background until real photos/video are ready per feature */
-.stack-feature__bg--placeholder {
+/* Placeholder look until real photos/video are ready */
+.highlight-row__media--placeholder {
   background:
-    radial-gradient(circle at 75% 25%, rgba(236, 104, 51, 0.14) 0%, transparent 50%),
-    linear-gradient(160deg, #101010 0%, #000000 100%);
+    radial-gradient(circle at 70% 30%, rgba(236, 104, 51, 0.15) 0%, transparent 50%),
+    linear-gradient(135deg, #161616 0%, #0A0A0A 100%);
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
-.stack-feature::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%);
-  z-index: 1;
+.highlight-row__text {
+  flex: 1 1 50%;
 }
 
-.stack-feature__content {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 3rem;
-}
-
-.stack-feature__title {
+.highlight-row__title {
   font-family: "Barlow Condensed", sans-serif;
   font-weight: 700;
-  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
   color: #ffffff;
-  text-transform: none;
-  margin: 0;
+  margin-bottom: 1rem;
 }
 
-.stack-feature__body {
+.highlight-row__body {
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  color: #ffffff;
-  max-width: 420px;
-  align-self: flex-end;
-  text-align: left;
-  margin: 0;
+  color: #cfcfcf;
+  max-width: 440px;
 }
 
 @media (max-width: 800px) {
-  .stack-feature__content {
-    padding: 2rem 1.5rem;
+  .highlights {
+    padding: 4rem 1.5rem;
   }
 
-  .stack-feature__body {
-    max-width: 100%;
+  .highlight-row,
+  .highlight-row--reverse {
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .highlight-row__media {
+    width: 100%;
   }
 }
 
