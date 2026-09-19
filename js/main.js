@@ -135,43 +135,77 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const faqItems = document.querySelectorAll("[data-faq]");
 
-  function setFaqHeight(item) {
+  function openFaq(item) {
     const answer = item.querySelector(".faq__answer");
-    if (item.classList.contains("is-open")) {
+    item.classList.add("is-open");
+
+    // requestAnimationFrame ensures the browser has applied the class
+    // (and its padding) before we measure — reading scrollHeight in the
+    // same synchronous tick as the class change can sometimes catch a
+    // stale layout and lock in a height that's too short, clipping content.
+    requestAnimationFrame(() => {
       answer.style.maxHeight = answer.scrollHeight + "px";
-    } else {
+    });
+  }
+
+  function closeFaq(item) {
+    const answer = item.querySelector(".faq__answer");
+
+    // If it was left at "none" (see transitionend below), give it an
+    // explicit pixel height first so the collapse actually animates
+    // instead of jumping instantly.
+    answer.style.maxHeight = answer.scrollHeight + "px";
+
+    requestAnimationFrame(() => {
+      item.classList.remove("is-open");
       answer.style.maxHeight = "0px";
-    }
+    });
   }
 
   faqItems.forEach((item) => {
     const question = item.querySelector(".faq__question");
+    const answer = item.querySelector(".faq__answer");
 
     question.addEventListener("click", () => {
       const isOpen = item.classList.contains("is-open");
 
-      // Close all, then reopen the clicked one if it wasn't already open
+      // Close all open items first
       faqItems.forEach((i) => {
-        i.classList.remove("is-open");
-        setFaqHeight(i);
+        if (i.classList.contains("is-open")) closeFaq(i);
       });
 
-      if (!isOpen) {
-        item.classList.add("is-open");
-        setFaqHeight(item);
+      if (!isOpen) openFaq(item);
+    });
+
+    // Once the open transition finishes, release the fixed pixel height
+    // to "none" — so if the content's real height ever changes (window
+    // resize, text reflow, a font finishing its swap-in), it's never
+    // clipped by a stale measurement.
+    answer.addEventListener("transitionend", (e) => {
+      if (e.propertyName !== "max-height") return;
+      if (item.classList.contains("is-open")) {
+        answer.style.maxHeight = "none";
       }
     });
 
     // Keep the open answer's height accurate if the window is resized
     // (e.g. rotating a phone, or text reflowing at a new breakpoint)
     window.addEventListener("resize", () => {
-      if (item.classList.contains("is-open")) setFaqHeight(item);
+      if (item.classList.contains("is-open") && answer.style.maxHeight !== "none") {
+        answer.style.maxHeight = answer.scrollHeight + "px";
+      }
     });
   });
 
-  // Set initial height for the pre-opened FAQ item on page load
-  faqItems.forEach((item) => {
-    if (item.classList.contains("is-open")) setFaqHeight(item);
+  // Open the pre-opened FAQ item's answer once fonts are ready, so its
+  // height is measured against final text metrics, not a fallback font.
+  document.fonts.ready.then(() => {
+    faqItems.forEach((item) => {
+      if (item.classList.contains("is-open")) {
+        const answer = item.querySelector(".faq__answer");
+        answer.style.maxHeight = "none";
+      }
+    });
   });
 
   // ---------- Hero: scroll-driven zoom video ----------
