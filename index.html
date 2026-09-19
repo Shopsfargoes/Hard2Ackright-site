@@ -18,40 +18,86 @@
   <nav class="nav">
     <div class="nav__inner">
       <a href="#" class="nav__logo">HARD2ACKRIGHT</a>
+
       <div class="nav__links">
         <a href="#highlights">Overview</a>
-        <a href="#why">Why HARD2ACKRIGHT</a>
+        <a href="#how-to-use">How To Use</a>
         <a href="#specs">Specs</a>
+        <a href="#faq">FAQ</a>
       </div>
-      <a href="#buy" class="nav__cta">Shop Now</a>
+
+      <div class="nav__right">
+        <a href="#buy" class="nav__cta">Shop Now</a>
+        <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile dropdown menu -->
+    <div class="nav__mobile-menu" id="navMobileMenu">
+      <a href="#highlights">Overview</a>
+      <a href="#how-to-use">How To Use</a>
+      <a href="#specs">Specs</a>
+      <a href="#faq">FAQ</a>
+      <a href="#buy" class="nav__mobile-cta">Shop Now</a>
     </div>
   </nav>
 
-  <!-- Hero -->
+  <!-- Hero: scroll-driven zoom video -->
   <!--
-    PLACEHOLDER MODE: no video/images yet.
-    Once Alex's footage is ready, uncomment the <video> block below,
-    add the files to /assets, and remove .hero--placeholder from the class list.
+    Structure: a tall "pin zone" (.hero-pin, 200vh) holds a sticky inner
+    wrapper (.hero-pin__sticky, 100vh) that stays fixed in the viewport for
+    the full scroll distance. JS reads scroll progress through the pin zone
+    (0 to 1) and scales the video from 1.6 down to 1.0, creating a zoom-out
+    effect. Once the pin zone is exhausted, the scale locks and normal
+    sections scroll up over it.
+
+    VIDEO NOT READY YET: video tag is present but points to placeholder
+    paths and falls back to the .hero-pin__poster gradient + poster image
+    if the file 404s. Once Alex's footage is ready:
+      1. Add assets/video/hero-loop.mp4 (and ideally hero-loop.webm)
+      2. Add assets/img/hero-fallback.jpg as the poster
+      3. Remove the hero-pin__poster fallback div (or leave it, it sits
+         behind the video and is invisible once the video loads)
   -->
-  <header class="hero hero--placeholder">
-    <!--
-    <video class="hero__media" autoplay muted loop playsinline poster="assets/img/hero-fallback.jpg">
-      <source src="assets/video/hero-loop.mp4" type="video/mp4">
-    </video>
-    -->
+  <section class="hero-pin">
+    <div class="hero-pin__sticky">
 
-    <div class="hero__content">
-      <div class="hero__text">
-        <h1 class="hero__headline">Train heavy.<br>Play light.</h1>
-        <p class="hero__available">Available now</p>
+      <!-- Poster/placeholder gradient — visible until real video exists -->
+      <div class="hero-pin__poster"></div>
+
+      <video
+        class="hero-pin__video"
+        id="heroVideo"
+        autoplay
+        muted
+        loop
+        playsinline
+        poster="assets/img/hero-fallback.jpg"
+      >
+        <source src="assets/video/hero-loop.webm" type="video/webm">
+        <source src="assets/video/hero-loop.mp4" type="video/mp4">
+      </video>
+
+      <div class="hero-pin__veil"></div>
+
+      <div class="hero-pin__content">
+        <div class="hero__text">
+          <h1 class="hero__headline">Train heavy.<br>Play light.</h1>
+          <p class="hero__available">Available now</p>
+        </div>
+
+        <div class="hero__buybox">
+          <p class="hero__price">From $59</p>
+          <a href="#buy" class="hero__cta">Shop Now</a>
+        </div>
       </div>
 
-      <div class="hero__buybox">
-        <p class="hero__price">From $59</p>
-        <a href="#buy" class="hero__cta">Shop Now</a>
-      </div>
     </div>
-  </header>
+  </section>
 
   <!-- Highlights: stacking scroll effect -->
   <!--
