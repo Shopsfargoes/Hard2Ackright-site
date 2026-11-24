@@ -19,7 +19,8 @@ body {
   right: 0;
   z-index: 100;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   padding: 1rem 1.5rem 0;
 }
 
@@ -44,6 +45,8 @@ body {
   letter-spacing: 0.05em;
   color: #ffffff;
   text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .nav__links {
@@ -74,12 +77,17 @@ body {
   text-decoration: none;
   padding: 0.5rem 1.1rem;
   border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: background 0.15s ease;
 }
 
-.nav__cta:hover {
-  background: #ffffff;
-  color: #0A0A0A;
+/* Hover only on devices that truly hover, so touch screens don't get stuck white after a tap */
+@media (hover: hover) {
+  .nav__cta:hover {
+    background: #ffffff;
+    color: #0A0A0A;
+  }
 }
 
 .nav__right {
@@ -127,6 +135,7 @@ body {
 .nav__mobile-menu {
   max-height: 0;
   overflow: hidden;
+  width: 100%;
   max-width: 1100px;
   margin: 0 auto;
   background: rgba(10, 10, 10, 0.9);
@@ -161,24 +170,21 @@ body {
   color: #EC6833 !important;
 }
 
-/* ---------- HERO: scroll-driven zoom video ---------- */
+/* ---------- HERO: static 600px banner with background video ---------- */
 
-/* Tall pin zone — its height (200vh) IS the scroll distance the zoom
-   animation plays out over. Taller = slower/more gradual zoom. */
 .hero-pin {
   position: relative;
-  height: 200vh;
+  height: 600px;
 }
 
-/* Sticky inner wrapper — pins to the top of the viewport for the full
-   height of .hero-pin, then releases naturally once .hero-pin ends. */
 .hero-pin__sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100dvh; /* mobile Safari address-bar fix */
+  position: relative;
+  height: 100%;
   width: 100%;
   overflow: hidden;
+  /* Clips the fixed video to the hero's box, so it only shows through
+     this 600px "window" while the page scrolls over it. */
+  clip-path: inset(0);
 }
 
 /* Placeholder fallback — sits behind the video; invisible once real
@@ -193,18 +199,12 @@ body {
 }
 
 .hero-pin__video {
-  position: absolute;
+  position: fixed; /* stays put while the hero scrolls over it (parallax-style) */
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   z-index: 1;
-  /* Starting scale — JS interpolates this down to 1.0 as the user
-     scrolls through the pin zone. Kept here too so there's no flash
-     of unscaled video before JS runs. */
-  transform: scale(1.6);
-  transform-origin: center center;
-  will-change: transform;
 }
 
 /* Gradient veil for text legibility over the video */
@@ -222,17 +222,9 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 0 3rem 4rem;
+  padding: 0 3rem 2.5rem;
   max-width: 1400px;
   margin: 0 auto;
-}
-
-/* Respect reduced-motion: skip JS scaling entirely, rest at a static,
-   already-settled scale instead of starting zoomed in with no animation. */
-@media (prefers-reduced-motion: reduce) {
-  .hero-pin__video {
-    transform: scale(1);
-  }
 }
 
 .hero__headline {
@@ -303,12 +295,20 @@ body {
     display: flex;
   }
 
+  .nav__inner {
+    padding: 0.5rem 0.9rem;
+  }
+
+  .nav__right {
+    gap: 0.6rem;
+  }
+
   .hero-pin__content {
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-end;
-    gap: 1.5rem;
-    padding: 0 1.5rem 3rem;
+    gap: 1rem;
+    padding: 0 1.5rem 1.5rem;
   }
 
   .hero__buybox {
@@ -415,10 +415,14 @@ body {
 .specs {
   position: relative;
   z-index: 5; /* sits above the stacked features */
-  background: #0A0A0A;
+  background: #ffffff;
   padding: 7rem 2rem 8rem;
   max-width: 1200px;
   margin: 0 auto;
+
+  /* Extend the white background edge to edge, even though the content is capped at 1200px */
+  box-shadow: 0 0 0 100vmax #ffffff;
+  clip-path: inset(0 -100vmax);
 }
 
 .specs__eyebrow {
@@ -436,7 +440,7 @@ body {
   font-weight: 700;
   font-size: clamp(2.25rem, 5vw, 3.5rem);
   line-height: 1.05;
-  color: #ffffff;
+  color: #0A0A0A;
   margin-bottom: 4rem;
   max-width: 700px;
 }
@@ -448,8 +452,8 @@ body {
 }
 
 .spec-card {
-  background: #121212;
-  border: 1px solid rgba(255,255,255,0.07);
+  background: #F5F5F5;
+  border: 1px solid rgba(0,0,0,0.08);
   border-radius: 16px;
   padding: 2rem 1.5rem;
 
@@ -468,7 +472,7 @@ body {
   font-family: "Barlow Condensed", sans-serif;
   font-weight: 700;
   font-size: clamp(1.75rem, 3vw, 2.25rem);
-  color: #ffffff;
+  color: #0A0A0A;
   margin-bottom: 0.75rem;
   white-space: nowrap;
 }
@@ -497,7 +501,7 @@ body {
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
   line-height: 1.5;
-  color: #cfcfcf;
+  color: #1a1a1a;
   margin: 0;
 }
 
@@ -775,10 +779,14 @@ body {
 .faq {
   position: relative;
   z-index: 5;
-  background: #0A0A0A;
+  background: #ffffff;
   padding: 7rem 2rem 8rem;
   max-width: 900px;
   margin: 0 auto;
+
+  /* Extend the white background edge to edge, even though the content is capped at 900px */
+  box-shadow: 0 0 0 100vmax #ffffff;
+  clip-path: inset(0 -100vmax);
 }
 
 .faq__eyebrow {
@@ -795,16 +803,16 @@ body {
   font-family: "Barlow Condensed", sans-serif;
   font-weight: 700;
   font-size: clamp(2.25rem, 5vw, 3.25rem);
-  color: #ffffff;
+  color: #0A0A0A;
   margin-bottom: 3rem;
 }
 
 .faq__list {
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(0,0,0,0.12);
 }
 
 .faq__item {
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(0,0,0,0.12);
 }
 
 .faq__question {
@@ -820,7 +828,7 @@ body {
   font-family: "Barlow Condensed", sans-serif;
   font-weight: 700;
   font-size: 1.15rem;
-  color: #ffffff;
+  color: #0A0A0A;
 }
 
 .faq__icon {
@@ -853,7 +861,7 @@ body {
   font-family: "Open Sans", sans-serif;
   font-size: 15px;
   line-height: 1.6;
-  color: #cfcfcf;
+  color: #1a1a1a;
   max-width: 640px;
   margin: 0;
 }
@@ -993,5 +1001,25 @@ body {
   .final-cta__button {
     width: 100%;
     text-align: center;
+  }
+}
+
+/* Very small phones: shrink nav pieces so logo + CTA + burger fit on one line */
+@media (max-width: 400px) {
+  .nav {
+    padding: 0.75rem 0.75rem 0;
+  }
+
+  .nav__logo {
+    font-size: 14px;
+  }
+
+  .nav__cta {
+    font-size: 12px;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .nav__burger {
+    width: 28px;
   }
 }

@@ -208,59 +208,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ---------- Hero: scroll-driven zoom video ----------
+  // ---------- Hero: background video ----------
 
-  const heroPin = document.querySelector(".hero-pin");
   const heroVideo = document.getElementById("heroVideo");
 
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
-
-  if (heroPin && heroVideo && !prefersReducedMotion) {
-    const ZOOM_START = 1.6; // scale at the top of the pin zone
-    const ZOOM_END = 1.0;   // scale once the pin zone is exhausted
-
-    let ticking = false;
-
-    function updateHeroZoom() {
-      const rect = heroPin.getBoundingClientRect();
-      const pinHeight = heroPin.offsetHeight; // 200vh worth of pixels
-      const viewportHeight = window.innerHeight;
-
-      // Scrollable distance within the pin zone is (pinHeight - viewportHeight),
-      // since the last viewportHeight's worth is where the sticky child is
-      // fully released and sitting at its final position.
-      const scrollableDistance = pinHeight - viewportHeight;
-
-      // How far we've scrolled into the pin zone: 0 at the very top of
-      // .hero-pin, growing as rect.top moves negative.
-      const scrolled = -rect.top;
-
-      let progress = scrollableDistance > 0 ? scrolled / scrollableDistance : 1;
-      progress = Math.min(Math.max(progress, 0), 1); // clamp 0–1
-
-      const currentScale = ZOOM_START + (ZOOM_END - ZOOM_START) * progress;
-      heroVideo.style.transform = `scale(${currentScale})`;
-
-      ticking = false;
-    }
-
-    // Throttle scroll handling to one calculation per animation frame
-    function onScroll() {
-      if (!ticking) {
-        requestAnimationFrame(updateHeroZoom);
-        ticking = true;
-      }
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-
-    // Run once on load in case the page loads already scrolled
-    // (e.g. anchor-link navigation or a refresh mid-page)
-    updateHeroZoom();
-
+  if (heroVideo) {
     // iOS Safari sometimes needs an explicit play() call even with the
     // autoplay attribute present, especially after being backgrounded.
     heroVideo.play().catch(() => {
